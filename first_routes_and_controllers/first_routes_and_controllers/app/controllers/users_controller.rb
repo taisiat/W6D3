@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     end 
 
     def create
-        user = User.new(params.require(:user).permit(:name, :email))
+        user = User.new(user_params)
         if user.save
             render json: user
         else
@@ -16,7 +16,11 @@ class UsersController < ApplicationController
     def show
         incoming_wildcard = params[:id]
         answer = User.find_by(id:incoming_wildcard)
-        render json: answer
+        if !answer
+            render json: "User not found"
+        else
+            render json: answer
+        end
     end
 
     def update
@@ -34,11 +38,13 @@ class UsersController < ApplicationController
     def destroy
         incoming_wildcard = params[:id]
         located_user = User.find_by(id:incoming_wildcard)
+        # dupe_user = located_user.dup
         if !located_user 
             render json: "User not found"
         else
+            # redirect_to user_url(located_user.id)
             located_user.destroy
-            redirect_to users_url
+            render json: located_user
         end
 
     end
@@ -46,6 +52,6 @@ class UsersController < ApplicationController
 
     private 
     def user_params
-        params.require(:user).permit(:name,:email)
+        params.require(:user).permit(:username)
     end
 end
