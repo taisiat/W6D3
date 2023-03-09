@@ -9,10 +9,6 @@
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
-    validates :name, :email, presence: true
-    # def initialize(name, email)
-    #     @name = name
-    #     @email = email
-
-    # end
+    validates :username, presence: true, uniqueness: true
+    
 end
