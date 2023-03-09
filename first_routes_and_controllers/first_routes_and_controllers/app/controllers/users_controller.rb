@@ -32,6 +32,15 @@ class UsersController < ApplicationController
     end
 
     def destroy
+        incoming_wildcard = params[:id]
+        located_user = User.find_by(id:incoming_wildcard)
+        if !located_user 
+            render json: "User not found"
+        else
+            located_user.destroy
+            redirect_to users_url
+        end
+
     end
 
 
