@@ -1,7 +1,16 @@
+require 'byebug'
 class ArtworksController < ApplicationController
     def index
-        artworks = Artwork.all
-        render json: artworks
+        
+        user_artworks = Artwork.artworks_for_user_id(params[:user_id])
+        render json: user_artworks
+
+        #def self.artworks_for_user_id(user_id)
+        # Artwork
+        #     .select('*')
+        #     .joins(:shared_viewers)
+        #     .where('artist_id = (?) OR users.id = (?)', user_id, user_id)
+        # end
     end 
 
     def create
