@@ -9,6 +9,8 @@
 #  updated_at :datetime         not null
 #
 class ArtworkShare < ApplicationRecord
+    validates :artwork_id, uniqueness: {scope: :viewer_id, message: 
+        "Viewer can only have on share of this artwork"}
     belongs_to :artwork,
     foreign_key: :artwork_id,
     class_name: :Artwork
